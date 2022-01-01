@@ -11,8 +11,8 @@ import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
 import styled from "styled-components";
 import {css} from "styled-components/macro"; //eslint-disable-line
-import illustration from "images/login-illustration.svg";
-import logo from "images/logo.svg";
+import illustration from "images/eodp-bg.JPG";
+import logo from "images/eodp-logo.JPG";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
@@ -89,7 +89,7 @@ function Login(props) {
   const submitButtonText = "Sign In";
   const SubmitButtonIcon = LoginIcon;
   const forgotPasswordUrl = "#";
-  const signupUrl = "#";
+  const signupUrl = "/signup";
 
   const form = useRef();
   const checkBtn = useRef();
@@ -158,11 +158,11 @@ function Login(props) {
                   <label htmlFor="username">Username</label>
                   <Input
                     type="text"
-                    className="form-control"
                     name="username"
                     value={username}
                     onChange={onChangeUsername}
                     validations={[required]}
+                    tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0"
                   />
                 </div>
 
@@ -170,23 +170,18 @@ function Login(props) {
                   <label htmlFor="password">Password</label>
                   <Input
                     type="password"
-                    className="form-control"
                     name="password"
                     value={password}
                     onChange={onChangePassword}
                     validations={[required]}
+                    tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0"
                   />
                 </div>
 
-                <div className="form-group">
-                  <button className="btn btn-primary btn-block" disabled={loading}>
-                    {loading && (
-                      <span className="spinner-border spinner-border-sm"></span>
-                    )}
-                    <span>Login</span>
-                  </button>
-                </div>
-
+                <SubmitButton type="submit" disabled={loading}>
+                  <SubmitButtonIcon className="icon" />)
+                  <span className="text">Log In</span>
+                </SubmitButton>
                 {message && (
                   <div className="form-group">
                     <div className="alert alert-danger" role="alert">
@@ -195,18 +190,18 @@ function Login(props) {
                   </div>
                 )}
                 <CheckButton style={{ display: "none" }} ref={checkBtn} />
-                <p tw="mt-6 text-xs text-gray-600 text-center">
-                  <a href={forgotPasswordUrl} tw="border-b border-gray-500 border-dotted">
-                    Forgot Password ?
-                  </a>
-                </p>
-                <p tw="mt-8 text-sm text-gray-600 text-center">
-                  Dont have an account?{" "}
-                  <a href={signupUrl} tw="border-b border-gray-500 border-dotted">
-                    Sign Up
-                  </a>
-                </p>
               </Form>
+              <p tw="mt-6 text-xs text-gray-600 text-center">
+                <a href={forgotPasswordUrl} tw="border-b border-gray-500 border-dotted">
+                  Forgot Password ?
+                </a>
+              </p>
+              <p tw="mt-8 text-sm text-gray-600 text-center">
+                Dont have an account?{" "}
+                <a href={signupUrl} tw="border-b border-gray-500 border-dotted">
+                  Sign Up
+                </a>
+              </p>
             </MainContent>
           </MainContainer>
           <IllustrationContainer>

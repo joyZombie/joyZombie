@@ -34,6 +34,7 @@ export function MyProjects() {
 export function Login(props) {
     return (
         <div>
+            <Header />
             <LoginPage props={props} />
         </div>
     );

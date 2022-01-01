@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -44,7 +44,7 @@ const DividerTextContainer = tw.div`my-12 border-b text-center relative`;
 const DividerText = tw.div`leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform -translate-y-1/2 absolute inset-x-0 top-1/2 bg-transparent`;
 
 //const Form = tw.form`mx-auto max-w-xs`;
-//const Input = tw.input`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0`;
+//const StyledInput = Input`${tw`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0`}`;
 const SubmitButton = styled.button`
   ${tw`mt-5 tracking-wide font-semibold bg-primary-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
   .icon {
@@ -61,186 +61,163 @@ const IllustrationImage = styled.div`
 `;
 
 const required = (value) => {
-    if (!value) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This field is required!
-        </div>
-      );
-    }
-  };
-  
-  const validEmail = (value) => {
-    if (!isEmail(value)) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This is not a valid email.
-        </div>
-      );
-    }
-  };
-  
-  const vusername = (value) => {
-    if (value.length < 3 || value.length > 20) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The username must be between 3 and 20 characters.
-        </div>
-      );
-    }
-  };
-  
-  const vpassword = (value) => {
-    if (value.length < 6 || value.length > 40) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The password must be between 6 and 40 characters.
-        </div>
-      );
-    }
-  };
+  if (!value) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
+    );
+  }
+};
+
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid email.
+      </div>
+    );
+  }
+};
+
+const vusername = (value) => {
+  if (value.length < 3 || value.length > 20) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The username must be between 3 and 20 characters.
+      </div>
+    );
+  }
+};
+
+const vpassword = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The password must be between 6 and 40 characters.
+      </div>
+    );
+  }
+};
 
 function Signup() {
-    const logoLinkUrl = "#";
-    const illustrationImageSrc = illustration;
-    const headingText = "Sign up for EOD Portal";
-    //let submitButtonText = "Sign up";
-    const SubmitButtonIcon = SignUpIcon;
-    const tosUrl = "#";
-    const privacyPolicyUrl = "#";
-    const logInUrl = "/login";
+  const logoLinkUrl = "#";
+  const illustrationImageSrc = illustration;
+  const headingText = "Sign up for EOD Portal";
+  //let submitButtonText = "Sign up";
+  const SubmitButtonIcon = SignUpIcon;
+  const tosUrl = "#";
+  const privacyPolicyUrl = "#";
+  const logInUrl = "/login";
 
-    const form = useRef();
-    const checkBtn = useRef();
+  const form = useRef();
+  const checkBtn = useRef();
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [successful, setSuccessful] = useState(false);
-    const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
 
-    const onChangeUsername = (e) => {
-        const username = e.target.value;
-        setUsername(username);
-    };
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
 
-    const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
-    };
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
 
-    const onChangePassword = (e) => {
-        const password = e.target.value;
-        setPassword(password);
-    };
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
 
-    const handleRegister = (e) => {
-        e.preventDefault();
+  const handleRegister = (e) => {
+    e.preventDefault();
 
-        setMessage("");
-        setSuccessful(false);
+    setMessage("");
+    setSuccessful(false);
 
-        form.current.validateAll();
+    form.current.validateAll();
 
-        if (checkBtn.current.context._errors.length === 0) {
-            AuthService.register(username, email, password).then(
-                (response) => {
-                    setMessage(response.data.message);
-                    setSuccessful(true);
-                },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+    if (checkBtn.current.context._errors.length === 0) {
+      AuthService.register(username, email, password).then(
+        (response) => {
+          setMessage(response.data.message);
+          setSuccessful(true);
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
-                    setMessage(resMessage);
-                    setSuccessful(false);
-                }
-            );
+          setMessage(resMessage);
+          setSuccessful(false);
         }
-    };
+      );
+    }
+  };
 
-    return (
-        <AnimationRevealPage disabled>
-            <Container>
-                <Content>
-                    <MainContainer>
-                        <LogoLink href={logoLinkUrl}>
-                            <LogoImage src={logo} />
-                        </LogoLink>
-                        <MainContent>
-                            <Heading>{headingText}</Heading>
-                            <Form onSubmit={handleRegister} ref={form}>
-                                {!successful && (
-                                    <div>
-                                        <div className="form-group">
-                                            <label htmlFor="username">Username</label>
-                                            <Input
-                                                type="text"
-                                                className="form-control"
-                                                name="username"
-                                                value={username}
-                                                onChange={onChangeUsername}
-                                                validations={[required, vusername]}
-                                            />
-                                        </div>
+  return (
+    <AnimationRevealPage>
+      <Container>
+        <Content>
+          <MainContainer>
+            <LogoLink href={logoLinkUrl}>
+              <LogoImage src={logo} />
+            </LogoLink>
+            <MainContent>
+              <Heading>{headingText}</Heading>
+              <Form onSubmit={handleRegister} ref={form}>
+                {!successful && (
+                  <div>
+                    <label htmlFor="username">Your username</label>
+                    <Input type="text" placeholder="User name" name="username" value={username} onChange={onChangeUsername} validations={[required, vusername]}
+                      tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
 
-                                        <div className="form-group">
-                                            <label htmlFor="email">Email</label>
-                                            <Input
-                                                type="text"
-                                                className="form-control"
-                                                name="email"
-                                                value={email}
-                                                onChange={onChangeEmail}
-                                                validations={[required, validEmail]}
-                                            />
-                                        </div>
+                    <label htmlFor="email">Your email</label>
+                    <Input type="email" placeholder="User Email" name="email" value={email} onChange={onChangeEmail} validations={[required, validEmail]}
+                      tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+                      
+                    <label htmlFor="password">Your password</label>
+                    <Input type="password" name="password" value={password} onChange={onChangePassword} validations={[required, vpassword]}
+                      tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
 
-                                        <div className="form-group">
-                                            <label htmlFor="password">Password</label>
-                                            <Input
-                                                type="password"
-                                                className="form-control"
-                                                name="password"
-                                                value={password}
-                                                onChange={onChangePassword}
-                                                validations={[required, vpassword]}
-                                            />
-                                        </div>
+                    <SubmitButton type="submit">
+                      <SubmitButtonIcon className="icon" />
+                      <span className="text">Sign Up</span>
+                    </SubmitButton>
+                  </div>
+                )}
 
-                                        <div className="form-group">
-                                            <button className="btn btn-primary btn-block">Sign Up</button>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {message && (
-                                    <div className="form-group">
-                                        <div
-                                            className={
-                                                successful ? "alert alert-success" : "alert alert-danger"
-                                            }
-                                            role="alert"
-                                        >
-                                            {message}
-                                        </div>
-                                    </div>
-                                )}
-                                <CheckButton style={{ display: "none" }} ref={checkBtn} />
-                            </Form>
-                        </MainContent>
-                    </MainContainer>
-                    <IllustrationContainer>
-                        <IllustrationImage imageSrc={illustrationImageSrc} />
-                    </IllustrationContainer>
-                </Content>
-            </Container>
-        </AnimationRevealPage>
-    );
+                {message && (
+                  <div className="form-group">
+                    <div
+                      className={
+                        successful ? "alert alert-success" : "alert alert-danger"
+                      }
+                      role="alert"
+                    >
+                      {message}
+                    </div>
+                  </div>
+                )}
+                <CheckButton style={{ display: "none" }} ref={checkBtn} />
+              </Form>
+            </MainContent>
+          </MainContainer>
+          <IllustrationContainer>
+            <IllustrationImage imageSrc={illustrationImageSrc} />
+          </IllustrationContainer>
+        </Content>
+      </Container>
+    </AnimationRevealPage>
+  );
 }
 
 export default Signup;
