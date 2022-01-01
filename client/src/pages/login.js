@@ -73,7 +73,7 @@ const required = (value) => {
 function Login(props) {
   const logoLinkUrl = "#";
   const illustrationImageSrc = illustration;
-  const headingText = "Sign In To Treact";
+  const headingText = "Log in To EOD Portal";
   /* socialButtons = [
     {
       iconImageSrc: googleIconImageSrc,

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SignupPage from "pages/signup";
 import LoginPage from "pages/login";
+import MyProfilePage from "pages/myprofile";
 import Header from "components/headers/light.js";
 
 export function Home() {
@@ -18,7 +19,8 @@ export function Home() {
 export function MyProfile() {
     return (
         <div>
-            <h1> This is My profile.</h1>
+            <Header />
+            <MyProfilePage />
         </div>
     );
 }
