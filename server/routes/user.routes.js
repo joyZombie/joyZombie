@@ -15,7 +15,13 @@ module.exports = function(app) {
   app.get(
     "/api/user/:id",
     [authJwt.verifyToken],
-    controller.userBoard
+    controller.userProfile
+  );
+
+  app.put(
+    "/api/user/setuseremail/:id",
+    [authJwt.verifyToken],
+    controller.setuseremail
   );
 
 /*   app.get(

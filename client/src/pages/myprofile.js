@@ -19,9 +19,13 @@ const TextColumn = styled(Column)(props => [
   props.textOnLeft ? tw`md:mr-12 lg:mr-16 md:order-first` : tw`md:ml-12 lg:ml-16 md:order-last`
 ]);
 
+const CardImage = styled.div`
+  ${props => css`background-image: url("${props.imageSrc}");`}
+  ${tw`w-64 h-64 bg-contain bg-center rounded`}`
+
 const Image = styled.div(props => [
   `background-image: url("${props.imageSrc}");`,
-  tw`rounded bg-contain bg-no-repeat bg-center h-full`
+  tw`md:ml-12 w-64 h-64 rounded bg-contain bg-no-repeat bg-center h-full`
 ]);
 const TextContent = tw.div`lg:py-8 text-center md:text-left`;
 
@@ -48,8 +52,8 @@ const FeatureDescription = tw.div`mt-1 text-sm`;
 const PrimaryButton = tw(PrimaryButtonBase)`mt-8 md:mt-10 text-sm inline-block mx-auto md:mx-0`;
 
 const MyProfile = () => {
-  const primaryButtonText = "See Our Portfolio";
-  const primaryButtonUrl = "https://timerse.com";
+  const primaryButtonText = "Edit Profile";
+  const primaryButtonUrl = "/editmyprofile";
   const features = null;
   const textOnLeft = false;
 
@@ -101,8 +105,8 @@ const MyProfile = () => {
           </ImageColumn>
           <TextColumn textOnLeft={textOnLeft}>
             <TextContent>
-              <Subheading>Hello <span tw="text-orange-400">{username}</span></Subheading>
-              <Heading>Here is your professional summary:</Heading>
+              <Subheading>Profile</Subheading>
+              <Heading>Hello <span tw="text-primary-500">{username}</span>. Here is your professional summary:</Heading>
               <Description>{description}</Description>
               <Features>
                   <Feature>
@@ -127,7 +131,7 @@ const MyProfile = () => {
                     </FeatureText>
                   </Feature>
               </Features>
-              <PrimaryButton as="a" href={primaryButtonUrl}>
+              <PrimaryButton as="a" href={primaryButtonUrl} >
                 {primaryButtonText}
               </PrimaryButton>
             </TextContent>

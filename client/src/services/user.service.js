@@ -9,6 +9,7 @@ const getPublicContent = () => {
 };
 
 const getUserProfile = () => {
+    console.log(authHeader());
   return axios.get(API_URL + AuthService.getCurrentUser().id, { headers: authHeader() });
 };
 
@@ -20,9 +21,17 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
+const setUserEmail = (email) => {
+/*     const obj = {id: AuthService.getCurrentUser().id,
+        email: email}; */
+    console.log(authHeader());
+    return axios.put(API_URL + "setuseremail/" + AuthService.getCurrentUser().id, {"email": email}, { headers: authHeader() });
+};
+
 export default {
   getPublicContent,
   getUserProfile,
   getModeratorBoard,
   getAdminBoard,
+  setUserEmail
 };

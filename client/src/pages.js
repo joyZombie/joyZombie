@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SignupPage from "pages/signup";
 import LoginPage from "pages/login";
 import MyProfilePage from "pages/myprofile";
+import EditMyProfilePage from "pages/editmyprofile";
 import Header from "components/headers/light.js";
 
 export function Home() {
@@ -21,6 +22,15 @@ export function MyProfile() {
         <div>
             <Header />
             <MyProfilePage />
+        </div>
+    );
+}
+
+export function EditMyProfile() {
+    return (
+        <div>
+            <Header />
+            <EditMyProfilePage />
         </div>
     );
 }
