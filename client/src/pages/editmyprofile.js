@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import UserService from "../services/user.service";
 import { useNavigate } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 //import EventBus from "../common/EventBus";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -65,6 +66,7 @@ const SubmitButton = styled.button`
 const FeatureText = tw.div`mt-4 md:mt-0 md:ml-4 text-center md:text-left`;
 const FeatureHeading = tw.div`font-bold text-lg text-primary-500`;
 const FeatureDescription = tw.div`mt-1 text-sm`;
+const textTW = "w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0";
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-8 md:mt-10 text-sm inline-block mx-auto md:mx-0`;
 const required = (value) => {
@@ -79,43 +81,45 @@ const required = (value) => {
 
 
 const EditMyProfile = () => {
-    const primaryButtonText = "Save Profile";
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
+    const form = useRef();
+    const checkBtn = useRef();
+    const [successful, setSuccessful] = useState(false);
+    const [message, setMessage] = useState("");
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [lastLogin, setLastLogin] = useState("");
-    const [createdOn, setCreatedOn] = useState("");
+    const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    /*   const [email, setEmail] = useState("");
-      const [email, setEmail] = useState("");
-      const [email, setEmail] = useState("");
-      const [email, setEmail] = useState("");
-      const [email, setEmail] = useState("");
-      const [email, setEmail] = useState(""); */
-
+    const [picture, setPicture] = useState("");
+    const [resume, setResume] = useState("");
+    const [gender, setGender] = useState("");
+    const [exp_company, setExpCompany] = useState("");
+    const [exp_total, setExpTotal] = useState("");
+    
     useEffect(() => {
         UserService.getUserProfile().then(
             (response) => {
-                console.log(response.data.userObj);
+                //console.log(response.data.userObj);
                 setUsername(response.data.userObj.username);
+                setPassword(response.data.userObj.password);
                 setEmail(response.data.userObj.email);
-                setLastLogin(response.data.userObj.last_login);
-                setCreatedOn(response.data.userObj.create_time);
+                setName(response.data.userObj.name);
                 setDescription(response.data.userObj.description);
+                setPicture(response.data.userObj.picture);
+                setResume(response.data.userObj.resume);
+                setGender(response.data.userObj.gender);
+                setExpCompany(response.data.userObj.exp_company);
+                setExpTotal(response.data.userObj.exp_total);
             },
             (error) => {
-                const _content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-
-                //setContent(_content);
-                console.log(_content);
+                const resMessage = (error.response && error.response.data && error.response.data.message) ||
+                    error.message || error.toString();
+                setMessage(resMessage);
+                setSuccessful(false);
+                console.log(resMessage);
 
                 /* if (error.response && error.response.status === 401) {
                     EventBus.dispatch("logout");
@@ -124,25 +128,66 @@ const EditMyProfile = () => {
         );
     }, []);
 
-    const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
-      };
+    const onChangeEmail         = (e) => { setEmail(e.target.value);        };
+    const onChangePassword      = (e) => { setPassword(e.target.value);     };
+    const onChangeName          = (e) => { setName(e.target.value);         };
+    const onChangeDescription   = (e) => { setDescription(e.target.value);  };
+    const onChangePicture       = (e) => { setPicture(e.target.value);      };
+    const onChangeResume        = (e) => { setResume(e.target.value);       };
+    const onChangeGender        = (e) => { setGender(e.target.value);       };
+    const onChangeExpCompany    = (e) => { setExpCompany(e.target.value);   };
+    const onChangeExpTotal      = (e) => { setExpTotal(e.target.value);     };
 
     const handleEditProfile = (e) => {
         e.preventDefault();
-        setLoading(true);
+        setMessage("");
+        setSuccessful(false);
+        form.current.validateAll();
 
-        UserService.setUserEmail(email).then(
-            (data) => {
-                console.log(data);
-            },
-            (error) => {
-                const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-                //setLoading(false);
-                //setMessage(resMessage);
-            }
-        );
+        if (checkBtn.current.context._errors.length === 0) {
+            UserService.setUserEmail(email).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserPassword(password).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserName(name).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserDescription(description).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserGender(gender).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserExpCompany(exp_company).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+            UserService.setUserExpTotal(exp_total).then( (response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
+        }
     };
 
     return (
@@ -150,43 +195,52 @@ const EditMyProfile = () => {
             <Content>
                 <MainContent>
                     <Heading>Profile</Heading>
-                    <Form onSubmit={handleEditProfile} >
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <Input
-                                type="text"
-                                name="username"
-                                value={username}
-                                tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0"
-                            />
-                        </div>
+                    <Form onSubmit={handleEditProfile} ref={form} >
+                        {!successful && (
+                            <div>
+                                <label htmlFor="username">Username</label>
+                                <Input type="text" name="username" value={username} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
 
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <Input
-                                type="password"
-                                name="password"
-                                value={password}
-                                tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0"
-                            />
-                        </div>
-                        
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <Input
-                                type="text"
-                                name="email"
-                                value={email}
-                                onChange={onChangeEmail}
-                                validations={[required]}
-                                tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0"
-                            />
-                        </div>
+                                <label htmlFor="password">Password</label>
+                                <Input type="password" name="password" value={password} onChange={onChangePassword} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
 
-                        <SubmitButton type="submit" invisible={loading}>
-                            <SubmitButtonIcon className="icon" />)
-                            <span className="text">Save changes</span>
-                        </SubmitButton>
+                                <label htmlFor="email">Email</label>
+                                <Input type="text" name="email" value={email} onChange={onChangeEmail} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="name">Name</label>
+                                <Input type="text" name="name" value={name} onChange={onChangeName} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="desc">Description</label>
+                                <Input type="text" name="desc" value={description} onChange={onChangeDescription} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="gender">Gender</label>
+                                <Input type="text" name="gender" value={gender} onChange={onChangeGender} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="expCompany">Experience in company</label>
+                                <Input type="text" name="expCompany" value={exp_company} onChange={onChangeExpCompany} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="expTotal">Total Experience</label>
+                                <Input type="text" name="expTotal" value={exp_total} onChange={onChangeExpTotal} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <SubmitButton type="submit" >
+                                    <SubmitButtonIcon className="icon" />
+                                    <span className="text">Save changes</span>
+                                </SubmitButton>
+                            </div>
+                        )}
+                        {message && (
+                            <div className="form-group">
+                                <div
+                                    className={
+                                        successful ? "alert alert-success" : "alert alert-danger"
+                                    }
+                                    role="alert"
+                                >
+                                    {message}
+                                </div>
+                            </div>
+                        )}
+                        <CheckButton style={{ display: "none" }} ref={checkBtn} />
                     </Form>
                 </MainContent>
             </Content>

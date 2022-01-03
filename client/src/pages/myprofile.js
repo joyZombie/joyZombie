@@ -6,8 +6,13 @@ import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading, Subheading as SubheadingBase } from "components/misc/Headings.js";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
-import { ReactComponent as BriefcaseIcon } from "feather-icons/dist/icons/briefcase.svg";
-import { ReactComponent as MoneyIcon } from "feather-icons/dist/icons/dollar-sign.svg";
+import { ReactComponent as EmailIcon } from "feather-icons/dist/icons/mail.svg";
+import { ReactComponent as UserIcon } from "feather-icons/dist/icons/user-plus.svg";
+import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
+import { ReactComponent as GenderIcon } from "feather-icons/dist/icons/user.svg";
+import { ReactComponent as ExperienceIcon } from "feather-icons/dist/icons/book-open.svg";
+import { ReactComponent as RatingIcon } from "feather-icons/dist/icons/star.svg";
+import { ReactComponent as EditIcon } from "feather-icons/dist/icons/edit.svg";
 import TeamIllustrationSrc from "images/team-illustration-2.svg";
 
 const Container = tw.div`relative`;
@@ -61,23 +66,31 @@ const MyProfile = () => {
   const [email, setEmail] = useState("");
   const [lastLogin, setLastLogin] = useState("");
   const [createdOn, setCreatedOn] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-/*   const [email, setEmail] = useState("");
-  const [email, setEmail] = useState("");
-  const [email, setEmail] = useState("");
-  const [email, setEmail] = useState("");
-  const [email, setEmail] = useState("");
-  const [email, setEmail] = useState(""); */
+  const [picture, setPicture] = useState("");
+  const [resume, setResume] = useState("");
+  const [gender, setGender] = useState("");
+  const [exp_company, setExpCompany] = useState("");
+  const [exp_total, setExpTotal] = useState("");
+  const [rating, setRating] = useState("");
 
     useEffect(() => {
         UserService.getUserProfile().then(
             (response) => {
-                console.log(response.data.userObj);
+                //console.log(response.data.userObj);
                 setUsername(response.data.userObj.username);
                 setEmail(response.data.userObj.email);
                 setLastLogin(response.data.userObj.last_login);
                 setCreatedOn(response.data.userObj.create_time);
+                setName(response.data.userObj.name);
                 setDescription(response.data.userObj.description);
+                setPicture(response.data.userObj.picture);
+                setResume(response.data.userObj.resume);
+                setGender(response.data.userObj.gender);
+                setExpCompany(response.data.userObj.exp_company);
+                setExpTotal(response.data.userObj.exp_total);
+                setRating(response.data.userObj.rating);
             },
             (error) => {
                 const _content =
@@ -101,38 +114,74 @@ const MyProfile = () => {
       <Container>
         <TwoColumn>
           <ImageColumn>
-            <Image imageSrc={TeamIllustrationSrc} />
+            <Image imageSrc={{picture}?{picture}:{TeamIllustrationSrc}} />
           </ImageColumn>
           <TextColumn textOnLeft={textOnLeft}>
             <TextContent>
-              <Subheading>Profile</Subheading>
+              <Subheading>Your Profile</Subheading>
               <Heading>Hello <span tw="text-primary-500">{username}</span>. Here is your professional summary:</Heading>
               <Description>{description}</Description>
               <Features>
                   <Feature>
-                    <FeatureIconContainer>{<BriefcaseIcon />}</FeatureIconContainer>
+                    <FeatureIconContainer>{<UserIcon />}</FeatureIconContainer>
+                    <FeatureText>
+                      <FeatureHeading>Name:</FeatureHeading>
+                      <FeatureDescription>{name}</FeatureDescription>
+                    </FeatureText>
+                  </Feature>
+                  <Feature>
+                    <FeatureIconContainer>{<EmailIcon />}</FeatureIconContainer>
                     <FeatureText>
                       <FeatureHeading>Email:</FeatureHeading>
                       <FeatureDescription>{email}</FeatureDescription>
                     </FeatureText>
                   </Feature>
                   <Feature>
-                    <FeatureIconContainer>{<BriefcaseIcon />}</FeatureIconContainer>
+                    <FeatureIconContainer>{<UserIcon />}</FeatureIconContainer>
                     <FeatureText>
-                      <FeatureHeading>Created on:</FeatureHeading>
+                      <FeatureHeading>User created on:</FeatureHeading>
                       <FeatureDescription>{createdOn}</FeatureDescription>
                     </FeatureText>
                   </Feature>
                   <Feature>
-                    <FeatureIconContainer>{<BriefcaseIcon />}</FeatureIconContainer>
+                    <FeatureIconContainer>{<LoginIcon />}</FeatureIconContainer>
                     <FeatureText>
                       <FeatureHeading>Last login:</FeatureHeading>
                       <FeatureDescription>{lastLogin}</FeatureDescription>
                     </FeatureText>
                   </Feature>
+                  <Feature>
+                    <FeatureIconContainer>{<GenderIcon />}</FeatureIconContainer>
+                    <FeatureText>
+                      <FeatureHeading>Gender:</FeatureHeading>
+                      <FeatureDescription>{gender}</FeatureDescription>
+                    </FeatureText>
+                  </Feature>
+                  <Feature>
+                    <FeatureIconContainer>{<ExperienceIcon />}</FeatureIconContainer>
+                    <FeatureText>
+                      <FeatureHeading>Total experience in Incedo:</FeatureHeading>
+                      <FeatureDescription>{exp_company}</FeatureDescription>
+                    </FeatureText>
+                  </Feature>
+                  <Feature>
+                    <FeatureIconContainer>{<ExperienceIcon />}</FeatureIconContainer>
+                    <FeatureText>
+                      <FeatureHeading>Total experience:</FeatureHeading>
+                      <FeatureDescription>{exp_total}</FeatureDescription>
+                    </FeatureText>
+                  </Feature>
+                  <Feature>
+                    <FeatureIconContainer>{<RatingIcon />}</FeatureIconContainer>
+                    <FeatureText>
+                      <FeatureHeading>Rating:</FeatureHeading>
+                      <FeatureDescription>{rating}</FeatureDescription>
+                    </FeatureText>
+                  </Feature>
               </Features>
               <PrimaryButton as="a" href={primaryButtonUrl} >
-                {primaryButtonText}
+                <EditIcon />
+                <span className="text" tw="ml-6">{primaryButtonText}</span>
               </PrimaryButton>
             </TextContent>
           </TextColumn>

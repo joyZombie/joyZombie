@@ -28,6 +28,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     },
+    name: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
     description: {
       type: DataTypes.STRING(255),
       allowNull: true
@@ -53,7 +57,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     rating: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {

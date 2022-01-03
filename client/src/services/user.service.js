@@ -22,10 +22,31 @@ const getAdminBoard = () => {
 };
 
 const setUserEmail = (email) => {
-/*     const obj = {id: AuthService.getCurrentUser().id,
-        email: email}; */
-    console.log(authHeader());
     return axios.put(API_URL + "setuseremail/" + AuthService.getCurrentUser().id, {"email": email}, { headers: authHeader() });
+};
+
+const setUserPassword = (password) => {
+    return axios.put(API_URL + "setuserpassword/" + AuthService.getCurrentUser().id, {"password": password}, { headers: authHeader() });
+};
+
+const setUserName = (name) => {
+    return axios.put(API_URL + "setusername/" + AuthService.getCurrentUser().id, {"name": name}, { headers: authHeader() });
+};
+
+const setUserDescription = (description) => {
+    return axios.put(API_URL + "setuserdescription/" + AuthService.getCurrentUser().id, {"description": description}, { headers: authHeader() });
+};
+
+const setUserGender = (gender) => {
+    return axios.put(API_URL + "setusergender/" + AuthService.getCurrentUser().id, {"gender": gender}, { headers: authHeader() });
+};
+
+const setUserExpCompany = (exp_company) => {
+    return axios.put(API_URL + "setuserexpcompany/" + AuthService.getCurrentUser().id, {"exp_company": exp_company}, { headers: authHeader() });
+};
+
+const setUserExpTotal = (exp_total) => {
+    return axios.put(API_URL + "setuserexptotal/" + AuthService.getCurrentUser().id, {"exp_total": exp_total}, { headers: authHeader() });
 };
 
 export default {
@@ -33,5 +54,11 @@ export default {
   getUserProfile,
   getModeratorBoard,
   getAdminBoard,
-  setUserEmail
+  setUserEmail,
+  setUserPassword,
+  setUserName,
+  setUserDescription,
+  setUserGender,
+  setUserExpCompany,
+  setUserExpTotal
 };

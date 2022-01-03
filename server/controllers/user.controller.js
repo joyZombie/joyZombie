@@ -1,4 +1,5 @@
 const db = require("../models");
+var bcrypt = require("bcryptjs");
 const User = db.user;
 
 exports.allAccess = (req, res) => {
@@ -40,13 +41,65 @@ exports.userProfile = (req, res) => {
 };
 
 exports.setuseremail = (req, res) => {
-  const id = req.params.id;
-  console.log("setuseremail: " + req.body["email"]);
-  User.update({email:req.body["email"]}, {where: {id_user : id}}).then (num => {
+  User.update({email:req.body["email"]}, {where: {id_user : req.params.id}}).then (num => {
     if (num == 1) {
       return res.status(200).send({message: "Email updated"});
     }
     res.status(404).send({ message: "Error in updating email" });
+  })
+};
+
+exports.setuserpassword = (req, res) => {
+  User.update({password:bcrypt.hashSync(req.body["password"], 8)}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "password updated"});
+    }
+    res.status(404).send({ message: "Error in updating password" });
+  })
+};
+
+exports.setusername = (req, res) => {
+  User.update({name:req.body["name"]}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "User name updated"});
+    }
+    res.status(404).send({ message: "Error in updating name" });
+  })
+};
+
+exports.setuserdescription = (req, res) => {
+  User.update({description:req.body["description"]}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "Description updated"});
+    }
+    res.status(404).send({ message: "Error in updating description" });
+  })
+};
+
+exports.setusergender = (req, res) => {
+  User.update({gender:req.body["gender"]}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "Gender updated"});
+    }
+    res.status(404).send({ message: "Error in updating gender" });
+  })
+};
+
+exports.setuserexpcompany = (req, res) => {
+  User.update({exp_company:req.body["exp_company"]}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "Exp company updated"});
+    }
+    res.status(404).send({ message: "Error in updating exp comp" });
+  })
+};
+
+exports.setuserexptotal = (req, res) => {
+  User.update({exp_total:req.body["exp_total"]}, {where: {id_user : req.params.id}}).then (num => {
+    if (num == 1) {
+      return res.status(200).send({message: "Exp total updated"});
+    }
+    res.status(404).send({ message: "Error in updating exp total" });
   })
 };
 
