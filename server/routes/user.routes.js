@@ -1,5 +1,7 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const multer = require('multer');
+const path=require('path');
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -58,6 +60,23 @@ module.exports = function(app) {
     "/api/user/setuserexptotal/:id",
     [authJwt.verifyToken],
     controller.setuserexptotal
+  );
+
+  var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "./public/images");
+    },
+    filename: (req, file, cb) => {
+      cb(null, `uploads/${file.originalname}-${Date.now()}.${path.extname(file.originalname)}`)
+    }
+  });
+
+  var upload = multer({storage: storage});
+
+  app.put(
+    "api/user/uploadprofilepic/:id",
+    upload.single('image'),
+    controller.uploadprofilepic
   );
 
 /*   app.get(

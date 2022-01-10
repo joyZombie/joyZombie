@@ -93,11 +93,13 @@ const EditMyProfile = () => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [picture, setPicture] = useState("");
     const [resume, setResume] = useState("");
     const [gender, setGender] = useState("");
     const [exp_company, setExpCompany] = useState("");
     const [exp_total, setExpTotal] = useState("");
+
+    const [picture, setPicture] = useState();
+    const [picFileName, setPicFileName] = useState("");
     
     useEffect(() => {
         UserService.getUserProfile().then(
@@ -132,11 +134,11 @@ const EditMyProfile = () => {
     const onChangePassword      = (e) => { setPassword(e.target.value);     };
     const onChangeName          = (e) => { setName(e.target.value);         };
     const onChangeDescription   = (e) => { setDescription(e.target.value);  };
-    const onChangePicture       = (e) => { setPicture(e.target.value);      };
     const onChangeResume        = (e) => { setResume(e.target.value);       };
     const onChangeGender        = (e) => { setGender(e.target.value);       };
     const onChangeExpCompany    = (e) => { setExpCompany(e.target.value);   };
     const onChangeExpTotal      = (e) => { setExpTotal(e.target.value);     };
+    const onChangePicture       = (e) => { setPicture(e.target.files[0]); setPicFileName(e.target.files[0].name);      };
 
     const handleEditProfile = (e) => {
         e.preventDefault();
@@ -187,6 +189,16 @@ const EditMyProfile = () => {
                     setMessage(resMessage); setSuccessful(false);
                 }
             );
+
+            const formData = new FormData();
+            formData.append("file", picture);
+            formData.append("fileName", picFileName);
+            UserService.setUserPicture(formData).then((response) => { setMessage(response.data.message); setSuccessful(true); },
+                (error) => {
+                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                    setMessage(resMessage); setSuccessful(false);
+                }
+            );
         }
     };
 
@@ -200,6 +212,9 @@ const EditMyProfile = () => {
                             <div>
                                 <label htmlFor="username">Username</label>
                                 <Input type="text" name="username" value={username} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
+
+                                <label htmlFor="profilepic">Picture</label>
+                                <Input type="file" name="profilepic" onChange={onChangePicture} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />
 
                                 <label htmlFor="password">Password</label>
                                 <Input type="password" name="password" value={password} onChange={onChangePassword} validations={[required]} tw="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0" />

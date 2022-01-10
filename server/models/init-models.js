@@ -5,6 +5,7 @@ var _tech_skill = require("./tech_skill");
 var _user = require("./user");
 var _user_project = require("./user_project");
 var _user_skill = require("./user_skill");
+var _image = require("./image");
 
 function initModels(sequelize) {
   var eodp_syslog = _eodp_syslog(sequelize, DataTypes);
@@ -13,6 +14,7 @@ function initModels(sequelize) {
   var user = _user(sequelize, DataTypes);
   var user_project = _user_project(sequelize, DataTypes);
   var user_skill = _user_skill(sequelize, DataTypes);
+  var image = _image(sequelize, DataTypes);
 
 
   return {
@@ -22,6 +24,7 @@ function initModels(sequelize) {
     user,
     user_project,
     user_skill,
+    image,
   };
 }
 module.exports = initModels;

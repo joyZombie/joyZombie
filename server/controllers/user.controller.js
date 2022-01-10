@@ -1,6 +1,9 @@
 const db = require("../models");
 var bcrypt = require("bcryptjs");
+const fs = require("fs");
+const image = require("../models/image");
 const User = db.user;
+const Image = db.image;
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -101,6 +104,23 @@ exports.setuserexptotal = (req, res) => {
     }
     res.status(404).send({ message: "Error in updating exp total" });
   })
+};
+
+exports.uploadprofilepic = (req, res) => {
+  if (!req.file) {
+    res.status(404).send({message: "No image found"});
+    console.log("No file upload");
+  } else {
+    console.log(req.file.filename);
+    Image.create( {
+      mimetype: req.file.mimetype, 
+      name: req.file.filename,
+      data: fs.readFileSync('./public/images/uploads/' + req.file.filename)
+    }).then((updimage) => {
+      console.log("file uploaded");
+      return res.send(`File has been uploaded.`);
+    });
+  }
 };
 
 /* exports.adminBoard = (req, res) => {

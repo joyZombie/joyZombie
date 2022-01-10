@@ -49,6 +49,10 @@ const setUserExpTotal = (exp_total) => {
     return axios.put(API_URL + "setuserexptotal/" + AuthService.getCurrentUser().id, {"exp_total": exp_total}, { headers: authHeader() });
 };
 
+const setUserPicture = (formData) => {
+    return axios.put(API_URL + "uploadprofilepic/" + AuthService.getCurrentUser().id, {formData}, { headers: authHeader() });
+};
+
 export default {
   getPublicContent,
   getUserProfile,
@@ -60,5 +64,6 @@ export default {
   setUserDescription,
   setUserGender,
   setUserExpCompany,
-  setUserExpTotal
+  setUserExpTotal,
+  setUserPicture
 };
