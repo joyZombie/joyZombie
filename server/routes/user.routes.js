@@ -62,6 +62,13 @@ module.exports = function(app) {
     controller.setuserexptotal
   );
 
+  app.put(
+    "api/user/uploadprofilepic/:id",
+    //upload.single('image'),
+    [authJwt.verifyToken],
+    controller.setuserexptotal
+  );
+
   var storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, "./public/images");
@@ -72,12 +79,6 @@ module.exports = function(app) {
   });
 
   var upload = multer({storage: storage});
-
-  app.put(
-    "api/user/uploadprofilepic/:id",
-    upload.single('image'),
-    controller.uploadprofilepic
-  );
 
 /*   app.get(
     "/api/test/mod",
